@@ -1,13 +1,14 @@
 <?php
 $jsonString = '';
 if (isset($_FILES) && $_FILES) {
+    include_once "config.php";
     $jsonString = file_get_contents($_FILES['file']['tmp_name']);
     
     $robotList = json_decode($jsonString, true);
     // print_r($jsonString);
     $robots = $robotList['RobotList'];
     $total = count($robots);
-
+    
     $statis = [
         "BaseBody" => [],
         "Head" => [],
@@ -37,7 +38,28 @@ if (isset($_FILES) && $_FILES) {
     foreach ($statis as $key => $types) {
         $htmlString .= "<tr><td>".$key."種類</td><td>數量</td><td>機率</td></tr>";
         foreach ($types as $typeKey => $type) {
-            $htmlString .= "<tr><td>".$typeKey."</td><td>".$type."</td><td>".sprintf('%.2f', round((($type/$total)*100), 2))."%</td></tr>";
+            $typeKeyString = $typeKey;
+            switch ($key) {
+                case 'BaseBody':
+                    $typeKeyString = $basebody[$typeKey];
+                    break;
+                case 'Head':
+                    $typeKeyString = $head[$typeKey];
+                    break;
+                case 'Shoulder':
+                    $typeKeyString = $shoulder[$typeKey];
+                    break;
+                case 'Arms':
+                    $typeKeyString = $arms[$typeKey];
+                    break;
+                case 'LowerBody':
+                    $typeKeyString = $lowerbody[$typeKey];
+                    break;
+               
+            }
+
+
+            $htmlString .= "<tr><td>".$typeKeyString."</td><td>".$type."</td><td>".sprintf('%.2f', round((($type/$total)*100), 2))."%</td></tr>";
         }
         
     }
@@ -55,7 +77,7 @@ if (isset($_FILES) && $_FILES) {
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>簡易RMW-NFT分析工具</title>
-    <script src="https://unpkg.com/vue@next"></script>
+    <!-- <script src="https://unpkg.com/vue@next"></script> -->
     <script src="js/jquery.min.js"></script>
 </head>
 <body>
