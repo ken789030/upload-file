@@ -1,6 +1,7 @@
 <?php
 $jsonString = '';
 if (isset($_FILES) && $_FILES) {
+    print_r($_POST);die;
     include_once "config.php";
     $jsonString = file_get_contents($_FILES['file']['tmp_name']);
     
@@ -106,8 +107,13 @@ if (isset($_FILES) && $_FILES) {
             ?>
             <form  method="post" enctype="multipart/form-data" id="jsonUpload">
                 <input type="file" name="file" id="file" accept=".json" >
+                <select name="type" id="type">
+                    <option value="0">顯示分析結果</option>
+                    <option value="1">匯出Excel</option>
+                </select>
             </form>
-            <button id="btn" onclick="upload()">上傳檔案</button>
+            <br>
+            <button id="btn" onclick="upload()">提交</button>
             
             <?php
         }
