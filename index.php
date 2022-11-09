@@ -1,70 +1,28 @@
 <?php
+
+use App\Contollers\Statistics;
+
 $jsonString = '';
 if (isset($_FILES) && $_FILES) {
-    print_r($_POST);die;
-    include_once "config.php";
+    
+    include_once dirname(__FILE__).'/vendor/autoload.php';
+    include_once "app/Controllers/Statistics.php";
+
+    $type = $_POST['type'];
+
     $jsonString = file_get_contents($_FILES['file']['tmp_name']);
     
     $robotList = json_decode($jsonString, true);
-    // print_r($jsonString);
+
     $robots = $robotList['RobotList'];
-    $total = count($robots);
-    
-    $statis = [
-        "BaseBody" => [],
-        "Head" => [],
-        "Shoulder" => [],
-        "Arms" => [],
-        'LowerBody' => [],
-        'MainColor' => [],
-        'Rank' => []
-    ];
-    foreach ($robots as $key => $robot) {
-        foreach ($robot as $name => $part) {
-            if ($name != 'Name') {
-                if (!$statis[$name][$part]) {
-                    $statis[$name][$part] = 1;
-                } else {
-                    $statis[$name][$part] += 1;
-                }
-            }
-        }
+    $statisController = new Statistics($robots);
+    $htmlString = $statisController->getHtmlString();
+    $total = $statisController->getTotal();
+    if ($type == 'excel') {
+        $statisController->exportExcel();
+        die;
     }
-    // print_r(json_encode($statis));
-
-
     
-    // print_r($total);
-    $htmlString = "";
-    foreach ($statis as $key => $types) {
-        $htmlString .= "<tr><td>".$key."種類</td><td>數量</td><td>機率</td></tr>";
-        foreach ($types as $typeKey => $type) {
-            $typeKeyString = $typeKey;
-            switch ($key) {
-                case 'BaseBody':
-                    $typeKeyString = $basebody[$typeKey];
-                    break;
-                case 'Head':
-                    $typeKeyString = $head[$typeKey];
-                    break;
-                case 'Shoulder':
-                    $typeKeyString = $shoulder[$typeKey];
-                    break;
-                case 'Arms':
-                    $typeKeyString = $arms[$typeKey];
-                    break;
-                case 'LowerBody':
-                    $typeKeyString = $lowerbody[$typeKey];
-                    break;
-               
-            }
-
-
-            $htmlString .= "<tr><td>".$typeKeyString."</td><td>".$type."</td><td>".sprintf('%.2f', round((($type/$total)*100), 2))."%</td></tr>";
-        }
-        
-    }
-    // die;
 
 }
 
@@ -108,8 +66,8 @@ if (isset($_FILES) && $_FILES) {
             <form  method="post" enctype="multipart/form-data" id="jsonUpload">
                 <input type="file" name="file" id="file" accept=".json" >
                 <select name="type" id="type">
-                    <option value="0">顯示分析結果</option>
-                    <option value="1">匯出Excel</option>
+                    <option value="result">顯示分析結果</option>
+                    <option value="excel">匯出Excel</option>
                 </select>
             </form>
             <br>
