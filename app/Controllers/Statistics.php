@@ -11,7 +11,7 @@ include_once dirname(__DIR__, 2)."/config.php" ;
 class Statistics 
 {
     protected $robots;
-    protected $total;
+    protected $total = 0;
     protected $htmlString;
     protected $statis = [
         "BaseBody" => [],
@@ -26,19 +26,22 @@ class Statistics
     public function __construct($robots)
     {
         $this->robots = $robots;
-        $this->total = count($robots);
         $this->statisRobots();
     }
 
     public function statisRobots() 
     {
         foreach ($this->robots as $key => $robot) {
-            foreach ($robot as $name => $part) {
-                if ($name != 'Name') {
-                    if (!$this->statis[$name][$part]) {
-                        $this->statis[$name][$part] = 1;
-                    } else {
-                        $this->statis[$name][$part] += 1;
+            if ($robot['Lv'] == 5) {
+                $this->total++;
+                foreach ($robot as $name => $part) {
+                    if ($name != 'Name' && $name != 'Random' && 
+                        $name != 'filename' && $name != 'Lv') {
+                        if (!$this->statis[$name][$part]) {
+                            $this->statis[$name][$part] = 1;
+                        } else {
+                            $this->statis[$name][$part] += 1;
+                        }
                     }
                 }
             }
@@ -135,20 +138,26 @@ class Statistics
                 ->setCellValue('E'.$page2Count, 'Arms')
                 ->setCellValue('F'.$page2Count, 'LowerBody')
                 ->setCellValue('G'.$page2Count, 'MainColor')
-                ->setCellValue('H'.$page2Count, 'Rank');
-        foreach ($this->robots as $number => $robot) {
+                ->setCellValue('H'.$page2Count, 'Rank')
+                ->setCellValue('I'.$page2Count, 'Random')
+                ->setCellValue('J'.$page2Count, 'filename')
+                ->setCellValue('J'.$page2Count, 'Lv');
+        foreach ($this->robots as $robot) {
             if ($page2Count === 1) {
                 $page2Count++;
             }
             $spreadsheet->setActiveSheetIndex(1)
-                ->setCellValue('A'.$page2Count, $this->keyToCht('Name',$robot['Name'])."(".$robot['Name'].")")
+                ->setCellValue('A'.$page2Count, $robot['Name'])
                 ->setCellValue('B'.$page2Count, $this->keyToCht('BaseBody',$robot['BaseBody'])."(".$robot['BaseBody'].")")
                 ->setCellValue('C'.$page2Count, $this->keyToCht('Head',$robot['Head'])."(".$robot['Head'].")")
                 ->setCellValue('D'.$page2Count, $this->keyToCht('Shoulder',$robot['Shoulder'])."(".$robot['Shoulder'].")")
                 ->setCellValue('E'.$page2Count, $this->keyToCht('Arms',$robot['Arms'])."(".$robot['Arms'].")")
                 ->setCellValue('F'.$page2Count, $this->keyToCht('LowerBody',$robot['LowerBody'])."(".$robot['LowerBody'].")")
                 ->setCellValue('G'.$page2Count, $this->keyToCht('MainColor',$robot['MainColor']))
-                ->setCellValue('H'.$page2Count, $this->keyToCht('Rank',$robot['Rank']));
+                ->setCellValue('H'.$page2Count, $this->keyToCht('Rank',$robot['Rank']))
+                ->setCellValue('I'.$page2Count, $robot['Random'])
+                ->setCellValue('J'.$page2Count, $robot['filename'])
+                ->setCellValue('J'.$page2Count, $robot['Lv']);
             
             $page2Count++;
         }
