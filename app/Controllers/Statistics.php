@@ -141,7 +141,7 @@ class Statistics
                 ->setCellValue('H'.$page2Count, 'Rank')
                 ->setCellValue('I'.$page2Count, 'Random')
                 ->setCellValue('J'.$page2Count, 'filename')
-                ->setCellValue('J'.$page2Count, 'Lv');
+                ->setCellValue('K'.$page2Count, 'Lv');
         foreach ($this->robots as $robot) {
             if ($page2Count === 1) {
                 $page2Count++;
@@ -157,7 +157,7 @@ class Statistics
                 ->setCellValue('H'.$page2Count, $this->keyToCht('Rank',$robot['Rank']))
                 ->setCellValue('I'.$page2Count, $robot['Random'])
                 ->setCellValue('J'.$page2Count, $robot['filename'])
-                ->setCellValue('J'.$page2Count, $robot['Lv']);
+                ->setCellValue('K'.$page2Count, $robot['Lv']);
             
             $page2Count++;
         }
