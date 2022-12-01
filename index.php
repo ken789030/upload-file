@@ -21,6 +21,10 @@ if (isset($_FILES) && $_FILES) {
     if ($type == 'excel') {
         $statisController->exportExcel();
         die;
+        
+    } elseif ($type == 'json') {
+        $statisController->exportJson();
+        die;
     }
     
 
@@ -68,6 +72,7 @@ if (isset($_FILES) && $_FILES) {
                 <select name="type" id="type">
                     <option value="result">顯示分析結果</option>
                     <option value="excel">匯出Excel</option>
+                    <option value="json">匯出json</option>
                 </select>
             </form>
             <br>

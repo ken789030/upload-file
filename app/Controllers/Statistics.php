@@ -72,6 +72,30 @@ class Statistics
         return $typeKeyString;
     }
 
+    public function keyToEN($key, $typeKey)
+    {
+        $typeKeyString = $typeKey;
+        switch ($key) {
+            case 'BaseBody':
+                $typeKeyString = BASEBODY_EN[$typeKey];
+                break;
+            case 'Head':
+                $typeKeyString = HEAD_EN[$typeKey];
+                break;
+            case 'Shoulder':
+                $typeKeyString = SHOULDER_EN[$typeKey];
+                break;
+            case 'Arms':
+                $typeKeyString = ARMS_EN[$typeKey];
+                break;
+            case 'LowerBody':
+                $typeKeyString = LOWERBODY_EN[$typeKey];
+                break;
+        }
+
+        return $typeKeyString;
+    }
+
     public function getHtmlString()
     {
         $htmlString = "";
@@ -96,20 +120,16 @@ class Statistics
 
         // Set document properties
         $spreadsheet->getProperties()->setCreator('RMW')
-            ->setLastModifiedBy('RMW')
-            ->setTitle('Office 2007 XLSX Test Document')
-            ->setSubject('Office 2007 XLSX Test Document')
-            ->setDescription('Test document for Office 2007 XLSX, generated using PHP classes.')
-            ->setKeywords('office 2007 openxml php')
-            ->setCategory('Test result file');
+            ->setLastModifiedBy('RMW');
         
         // Add some data
         $spreadsheet->setActiveSheetIndex(0)
             ->setCellValue('A1', '總數')
             ->setCellValue('B1', $this->total);
 
-        $count = 2;
+        $count = 1;
         foreach ($this->statis as $key => $types) {
+            $count++;
             $spreadsheet->setActiveSheetIndex(0)
             ->setCellValue('A'.$count, $key.'種類')
             ->setCellValue('B'.$count, '數量')
@@ -154,13 +174,14 @@ class Statistics
                 ->setCellValue('E'.$page2Count, $this->keyToCht('Arms',$robot['Arms'])."(".$robot['Arms'].")")
                 ->setCellValue('F'.$page2Count, $this->keyToCht('LowerBody',$robot['LowerBody'])."(".$robot['LowerBody'].")")
                 ->setCellValue('G'.$page2Count, $this->keyToCht('MainColor',$robot['MainColor']))
-                ->setCellValue('H'.$page2Count, $this->keyToCht('Rank',$robot['Rank']))
+                ->setCellValue('H'.$page2Count, $robot['Rank'])
                 ->setCellValue('I'.$page2Count, $robot['Random'])
                 ->setCellValue('J'.$page2Count, $robot['filename'])
                 ->setCellValue('K'.$page2Count, $robot['Lv']);
             
             $page2Count++;
         }
+        
         $spreadsheet->getActiveSheet()->setTitle('原始資料');
         
 
@@ -180,5 +201,173 @@ class Statistics
         $writer = IOFactory::createWriter($spreadsheet, 'Xlsx');
         $writer->save('php://output');
         exit;
+    }
+
+    public function exportJson()
+    {
+        $newRobots = [];
+        $count = 0;
+        $description = 'test word-Lorem ipsum dolor sit amet, has adhuc homero contentiones ut, ut paulo errem ius. Ad sed exerci nonumy, nec omnes prompta partiendo at, ei duo nostro aliquip contentiones. Eu option vidisse fabulas vix, in usu fugit elitr deseruisse. Putant assentior persequeris vel ei. Veritus maiorum lobortis sit ea. Eros ferri definiebas mea id, lorem indoctum cum ei.-test word';
+        foreach ($this->robots as $robot) {
+            if (!$newRobots['Free Me#'.intval($robot['Name'])]) {
+                $newRobots['Free Me#'.intval($robot['Name'])] = [];
+                
+                $newRobots['Free Me#'.intval($robot['Name'])][] = 
+                [
+                    'attributes' => [
+                        0 => [
+                            'trait_type' => 'filename',
+                            'value' => $robot['filename'].'.jpg'
+                        ],
+                        1 => [
+                            'trait_type' => 'LEVEL',
+                            'value' => 'Lv'.$robot['Lv']
+                        ],
+                        2 => [
+                            'trait_type' => 'Armor Color',
+                            'value' => $robot['MainColor']
+                        ],
+                        3 => [
+                            'trait_type' => 'HEAD & CHEST',
+                            'value' => $this->keyToEN('Head',$robot['Head'])
+                        ],
+                        4 => [
+                            'trait_type' => 'SHOULDER',
+                            'value' => $this->keyToEN('Shoulder',$robot['Shoulder'])
+                        ],
+                        5 => [
+                            'trait_type' => 'ARM',
+                            'value' => $this->keyToEN('Arms',$robot['Arms'])
+                        ],
+                        6 => [
+                            'trait_type' => 'LOWER BODY',
+                            'value' => $this->keyToEN('LowerBody',$robot['LowerBody'])
+                        ],
+                    ],
+                    'description' => $description
+                ];
+
+            } else {
+                
+                
+                $newRobots['Free Me#'.intval($robot['Name'])][] =
+                [
+                    'attributes' => [
+                        0 => [
+                            'trait_type' => 'filename',
+                            'value' => $robot['filename'].'.jpg'
+                        ],
+                        1 => [
+                            'trait_type' => 'LEVEL',
+                            'value' => 'Lv'.$robot['Lv']
+                        ],
+                        2 => [
+                            'trait_type' => 'Armor Color',
+                            'value' => $robot['MainColor']
+                        ],
+                        3 => [
+                            'trait_type' => 'HEAD & CHEST',
+                            'value' => $this->keyToEN('Head',$robot['Head'])
+                        ],
+                        4 => [
+                            'trait_type' => 'SHOULDER',
+                            'value' => $this->keyToEN('Shoulder',$robot['Shoulder'])
+                        ],
+                        5 => [
+                            'trait_type' => 'ARM',
+                            'value' => $this->keyToEN('Arms',$robot['Arms'])
+                        ],
+                        6 => [
+                            'trait_type' => 'LOWER BODY',
+                            'value' => $this->keyToEN('LowerBody',$robot['LowerBody'])
+                        ],
+                    ],
+                    'description' => $description
+                ];
+
+            }
+
+            // $newRobots[] = [
+            //     'NFT Name' => 'Free Me#'.intval($robot['Name']),
+            //     'filename' => $robot['filename'],
+            //     'LEVEL' => 'Lv'.$robot['Lv'],
+            //     'Armor Color' => $robot['MainColor'],
+            //     'HEAD & CHEST' => $this->keyToEN('Head',$robot['Head']),
+            //     'SHOULDER' => $this->keyToEN('Shoulder',$robot['Shoulder']),
+            //     'ARM' => $this->keyToEN('Arms',$robot['Arms']),
+            //     'LOWER BODY' => $this->keyToEN('LowerBody',$robot['LowerBody'])
+            // ];
+            // $count++;
+            // if ($count >= 20) {
+            //     break;
+            // }
+        }
+
+        header('Content-disposition: attachment; filename=rmwNFT.json');
+        header('Content-Type: application/json; charset=utf-8');
+        print_r(json_encode($newRobots, JSON_PRETTY_PRINT));
+        die;
+
+
+        // $spreadsheet = new Spreadsheet();
+
+        // // Set document properties
+        // $spreadsheet->getProperties()->setCreator('RMW')
+        //     ->setLastModifiedBy('RMW');
+        
+        // // Add some data
+
+        // $count = 1;
+
+        // $spreadsheet->setActiveSheetIndex(0)
+        //         ->setCellValue('A'.$count, 'NFT Name')
+        //         ->setCellValue('B'.$count, 'filename')
+        //         ->setCellValue('C'.$count, 'BODY')
+        //         ->setCellValue('D'.$count, 'LEVEL')
+        //         ->setCellValue('E'.$count, 'Armor Color')
+        //         ->setCellValue('F'.$count, 'HEAD & CHEST')
+        //         ->setCellValue('G'.$count, 'SHOULDER')
+        //         ->setCellValue('H'.$count, 'ARM')
+        //         ->setCellValue('I'.$count, 'LOWER BODY');
+        // foreach ($this->robots as $robot) {
+        //     if ($count === 1) {
+        //         $count++;
+        //     }
+        //     $spreadsheet->setActiveSheetIndex(0)
+        //         ->setCellValue('A'.$count, 'Free Me#'.intval($robot['Name']))
+        //         ->setCellValue('B'.$count, $robot['filename'])
+        //         ->setCellValue('C'.$count, $this->keyToEN('BaseBody',$robot['BaseBody']))
+        //         ->setCellValue('D'.$count, 'Lv'.$robot['Lv'])
+        //         ->setCellValue('E'.$count, $robot['MainColor'])
+        //         ->setCellValue('F'.$count, $this->keyToEN('Head',$robot['Head']))
+        //         ->setCellValue('G'.$count, $this->keyToEN('Shoulder',$robot['Shoulder']))
+        //         ->setCellValue('H'.$count, $this->keyToEN('Arms',$robot['Arms']))
+        //         ->setCellValue('I'.$count, $this->keyToEN('LowerBody',$robot['LowerBody']));
+            
+        //     $count++;
+        // }
+        
+        // // Rename worksheet
+        // $spreadsheet->getActiveSheet()->setTitle('測試資料');
+
+
+        
+
+        // // Redirect output to a client’s web browser (Xlsx)
+        // header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+        // header('Content-Disposition: attachment;filename="RMW-nft.xlsx"');
+        // header('Cache-Control: max-age=0');
+        // // If you're serving to IE 9, then the following may be needed
+        // header('Cache-Control: max-age=1');
+
+        // // If you're serving to IE over SSL, then the following may be needed
+        // header('Expires: Mon, 26 Jul 1997 05:00:00 GMT'); // Date in the past
+        // header('Last-Modified: ' . gmdate('D, d M Y H:i:s') . ' GMT'); // always modified
+        // header('Cache-Control: cache, must-revalidate'); // HTTP/1.1
+        // header('Pragma: public'); // HTTP/1.0
+
+        // $writer = IOFactory::createWriter($spreadsheet, 'Xlsx');
+        // $writer->save('php://output');
+        // exit;
     }
 }

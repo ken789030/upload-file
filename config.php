@@ -104,3 +104,110 @@ define("LOWERBODY", [
     18 => "",
     19 => ""
 ]);
+
+define("BASEBODY_EN" , [
+    0 => "Copper",
+    1 => "Gold",
+    2 => "Green",
+    3 => "Purple",
+    4 => "Leopard",
+    5 => "Camo",
+    6 => "Red",
+    7 => "Silver",
+    8 => "Yellow",
+    9 => "Black",
+    10 => "Blue"
+]);
+
+define("HEAD_EN" , [
+    0 => "",
+    1 => "Sprint fire",
+    2 => "Strike lupus",
+    3 => "Oni-blade  samurai",
+    4 => "Steel biting jaws",
+    5 => "Electronic fairy",
+    6 => "Violent axe",
+    7 => "Bounce ear",
+    8 => "Building master",
+    9 => "Crazy-Jazz",
+    10 => "Graffiti boy",
+    11 => "Welding gun",
+    12 => "Rattled  buffalo",
+    13 => "Frog  eye",
+    14 => "",
+    15 => "",
+    16 => "Hell punk",
+    17 => "Rivet attacker",
+    18 => "Diving shark",
+    19 => ""
+]);
+
+define("SHOULDER_EN", [
+    0 => "",
+    1 => "Sprint fire",
+    2 => "Strike lupus",
+    3 => "Oni-blade  samurai",
+    4 => "Steel biting jaws",
+    5 => "Electronic fairy",
+    6 => "Violent axe",
+    7 => "Bounce ear",
+    8 => "Building master",
+    9 => "Crazy-Jazz",
+    10 => "Graffiti boy",
+    11 => "Welding gun",
+    12 => "Rattled  buffalo",
+    13 => "Frog  eye",
+    14 => "PI-Float fighter",
+    15 => "Delta agent",
+    16 => "",
+    17 => "Rivet attacker",
+    18 => "",
+    19 => "Deepsea explorer"
+]);
+
+define("ARMS_EN", [
+    0 => "",
+    1 => "Sprint fire",
+    2 => "Strike lupus",
+    3 => "Oni-blade  samurai",
+    4 => "Steel biting jaws",
+    5 => "Electronic fairy",
+    6 => "Violent axe",
+    7 => "Bounce ear",
+    8 => "Building master",
+    9 => "Crazy-Jazz",
+    10 => "Graffiti boy",
+    11 => "Welding gun",
+    12 => "Rattled  buffalo",
+    13 => "Frog  eye",
+    14 => "",
+    15 => "",
+    16 => "",
+    17 => "",
+    18 => "",
+    19 => ""
+]);
+
+define("LOWERBODY_EN", [
+    0 => "",
+    1 => "Sprint fire",
+    2 => "Strike lupus",
+    3 => "Oni-blade  samurai",
+    4 => "Steel biting jaws",
+    5 => "Electronic fairy",
+    6 => "Violent axe",
+    7 => "Bounce ear",
+    8 => "Building master",
+    9 => "Crazy-Jazz",
+    10 => "Graffiti boy",
+    11 => "Welding gun",
+    12 => "Rattled  buffalo",
+    13 => "Frog  eye",
+    14 => "",
+    15 => "",
+    16 => "",
+    17 => "",
+    18 => "",
+    19 => ""
+]);
+
