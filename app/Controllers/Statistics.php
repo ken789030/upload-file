@@ -222,22 +222,26 @@ class Statistics
                         'value' => 'Lv'.$robot['Lv']
                     ],
                     1 => [
-                        'trait_type' => 'Armor Color',
-                        'value' => $robot['MainColor']
+                        'trait_type' => 'BaseBody',
+                        'value' => $this->keyToEN('BaseBody',$robot['BaseBody'])
                     ],
                     2 => [
+                        'trait_type' => 'Armor Color',
+                        'value' => ($robot['Lv'] === 1)? "" :$robot['MainColor']
+                    ],
+                    3 => [
                         'trait_type' => 'HEAD & CHEST',
                         'value' => $this->keyToEN('Head',$robot['Head'])
                     ],
-                    3 => [
+                    4 => [
                         'trait_type' => 'SHOULDER',
                         'value' => $this->keyToEN('Shoulder',$robot['Shoulder'])
                     ],
-                    4 => [
+                    5 => [
                         'trait_type' => 'ARM',
                         'value' => $this->keyToEN('Arms',$robot['Arms'])
                     ],
-                    5 => [
+                    6 => [
                         'trait_type' => 'LOWER BODY',
                         'value' => $this->keyToEN('LowerBody',$robot['LowerBody'])
                     ]
