@@ -214,7 +214,7 @@ class Statistics
             }
             
             $sortArrays[intval($robot['Name']) - 1][$robot['Lv'] - 1] = [
-                'name' => 'Free Me#'.(intval($robot['Name']) - 1),
+                'name' => 'GENESIS GA-JUN#'.(intval($robot['Name']) - 1),
                 'filename' => $robot['filename'].'.jpg',
                 'attributes' => [
                     0 => [
